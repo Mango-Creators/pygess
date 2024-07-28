@@ -1,5 +1,5 @@
 import pygame as pyg
-import data
+from . import data
 
 
 # Basic Entity
@@ -17,7 +17,7 @@ class BasicEntity:
         
         self._colliding_objects = []
 
-        if self.rect not in data.all_rects:  
+        if self.rect not in data.all_rects:
             data.all_rects.append(self.rect)
 
     # Checks what all objects are colliding with itself
