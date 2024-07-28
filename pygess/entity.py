@@ -1,5 +1,5 @@
 import pygame as pyg
-import pygess.data as data
+import data
 
 
 # Basic Entity
