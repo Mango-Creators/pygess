@@ -17,7 +17,7 @@ setup(
     install_requires=['pygame'],
     keywords=['python', 'pygame', "essentials"],
     classifiers=[
-        "Development Status :: 1 - Aplha",
+        "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
         "Operating System :: Unix",
