@@ -1,3 +1,3 @@
-import colors
-import data
-import entity
+import colors.py
+import data.py
+import entity.py
