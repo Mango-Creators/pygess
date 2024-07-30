@@ -2,6 +2,5 @@
 *.pyc
 test.py
 dist
-*.egg-info/
 pygess_py.egg-info/
 
