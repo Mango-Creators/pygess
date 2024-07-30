@@ -13,7 +13,7 @@ class BasicEntity:
 
         self.surface = pyg.display.get_surface()
         self.rect = pyg.Rect(self.x, self.y, self.width, self.height)
-        self.prev_rect = pyg.Rect(self.x, self.y, self.width, self.height)
+        # self.prev_rect = pyg.Rect(self.x, self.y, self.width, self.height)
         
         self._colliding_objects = []
 
@@ -94,4 +94,38 @@ class RectMovingEntity(BasicMovingEntity, RectEntity):
         self.check_collisions()
         self._draw()  # Call the draw method from RectEntity
 
+
+# Basic Circular Entity
+class BasicCircularEntity(RectEntity):
+    def __init__(self, center_x, center_y, radius, color) -> None:
+        
+        self.centerx = center_x
+        self.centery = center_y
+        self.radius = radius
+        
+        self.color = color
+        # ((self.radius/2) - self.radius)
+        self.rect_coords = [self.centerx - self.radius, self.centery - self.radius]
+        self.rect_side = radius * 1.7
+        
+        RectEntity.__init__(self, self.rect_coords[0], self.rect_coords[1], self.rect_side, self.rect_side, self.color)
+    
+    def _draw(self):
+        pyg.draw.circle(self.surface, self.color, (self.centerx, self.centery), self.radius)
+    
+    def update_rect(self):
+        # Remove earlier rect
+        index = data.all_rects.index(self.rect)
+        data.all_rects.remove(self.rect)
+        
+        # Update rect
+        self.rect.center = (self.centerx, self.centery)
+        self.rect.width = self.width
+        self.rect.height = self.height
+        
+        # Add new rect
+        data.all_rects.insert(index + 1, self.rect)
+
+    
+    
 
