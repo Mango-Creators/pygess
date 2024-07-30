@@ -2,5 +2,5 @@
 *.pyc
 test.py
 dist
-
+*.png
 

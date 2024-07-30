@@ -142,6 +142,32 @@ class CircularMovingEntity(BasicCircularEntity, BasicMovingEntity):
         self.move()
         self.update_rect()
         self._draw()
-    
-    
 
+# Sprite Class
+class Sprite (RectEntity):
+    def __init__(self, x_pos, y_pos, width, height, sprite_path) -> None:
+        
+        RectEntity.__init__(self, x_pos, y_pos, width, height, None)
+        
+        self.image = pyg.image.load(sprite_path).convert_alpha()
+        self.image = pyg.transform.scale(self.image, (self.rect.width, self.rect.height))
+    
+    def _draw(self):
+        self.surface.blit(self.image, self.rect)
+        self.image = pyg.transform.scale(self.image, (self.rect.width, self.rect.height))
+
+
+# MovingSprite
+class MovingSprite(Sprite, BasicMovingEntity):
+    def __init__(self, x_pos, y_pos, width, height, sprite_path, velocity) -> None:
+        
+        Sprite.__init__(self, x_pos, y_pos, width, height, sprite_path)
+        BasicMovingEntity.__init__(self, x_pos, y_pos, width, height, velocity)
+
+    def update(self):
+        self.check_collisions()
+        self.move()
+        self.update_rect()
+        self._draw()
+
+    
