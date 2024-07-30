@@ -66,7 +66,7 @@ class RectEntity(BasicEntity):
 
 
 # Basic Moving Entity
-class BasicMovingEntity(BasicEntity):
+class MovingBasicEntity(BasicEntity):
     def __init__(self, x_pos, y_pos, width, height, velocity: tuple) -> None:
         BasicEntity.__init__(self, x_pos, y_pos, width, height)
         self.vel_x = velocity[0]
@@ -77,15 +77,15 @@ class BasicMovingEntity(BasicEntity):
         self.y += self.vel_y
 
     def update(self):
+        self.move()
         self.update_rect()
         self.check_collisions()
-        self.move()
 
 
 # Rectangle Moving Entity
-class RectMovingEntity(BasicMovingEntity, RectEntity):
+class MovingRectEntity(MovingBasicEntity, RectEntity):
     def __init__(self, x_pos, y_pos, width, height, velocity, color: tuple) -> None:
-        BasicMovingEntity.__init__(self, x_pos, y_pos, width, height, velocity)
+        MovingBasicEntity.__init__(self, x_pos, y_pos, width, height, velocity)
         RectEntity.__init__(self, x_pos, y_pos, width, height, color)
     
     def update(self):
@@ -126,6 +126,22 @@ class BasicCircularEntity(RectEntity):
         # Add new rect
         data.all_rects.insert(index + 1, self.rect)
 
+
+# Circular Moving Entity
+class CircularMovingEntity(BasicCircularEntity, MovingBasicEntity):
+    def __init__(self, center_x, center_y, radius, velocity: tuple, color) -> None:
+        BasicCircularEntity.__init__(self, center_x, center_y, radius, color)
+        MovingBasicEntity.__init__(self, self.rect.x, self.rect.y, self.width, self.height, velocity)
+    
+    def move(self):
+        self.centerx += self.vel_x
+        self.centery += self.vel_y
+        
+    def update(self):
+        self.check_collisions()
+        self.move()
+        self.update_rect()
+        self._draw()
     
     
 
