@@ -1,5 +1,6 @@
 import pygame as pyg
 from . import data
+from . import physics as phy
 
 
 # Basic Entity
@@ -39,7 +40,10 @@ class BasicEntity:
     def update_rect(self):
         index = data.all_rects.index(self.rect)
         data.all_rects.remove(self.rect)
-        self.rect = pyg.Rect(self.x, self.y, self.width, self.height)
+        self.rect.x = round(self.x)
+        self.rect.y = round(self.y)
+        self.rect.width = self.width
+        self.rect.height = self.height
         data.all_rects.insert(index + 1, self.rect)
 
     # Update Function
@@ -71,12 +75,18 @@ class BasicMovingEntity(BasicEntity):
         BasicEntity.__init__(self, x_pos, y_pos, width, height)
         self.vel_x = velocity[0]
         self.vel_y = velocity[1]
-    
+        
+        self.dt = phy.Dt
+        
     def move(self):
-        self.x += self.vel_x
-        self.y += self.vel_y
+        self.vel_x += phy.gravity[0]
+        self.vel_y += phy.gravity[1]
+        
+        self.x += self.vel_x * self.dt
+        self.y += self.vel_y * self.dt
 
     def update(self):
+        self.dt = phy.Dt
         self.move()
         self.update_rect()
         self.check_collisions()
@@ -89,6 +99,7 @@ class RectMovingEntity(BasicMovingEntity, RectEntity):
         RectEntity.__init__(self, x_pos, y_pos, width, height, color)
     
     def update(self):
+        self.dt = phy.Dt
         self.move()
         self.update_rect()
         self.check_collisions()
@@ -134,10 +145,14 @@ class CircularMovingEntity(BasicCircularEntity, BasicMovingEntity):
         BasicMovingEntity.__init__(self, self.rect.x, self.rect.y, self.width, self.height, velocity)
     
     def move(self):
-        self.centerx += self.vel_x
-        self.centery += self.vel_y
+        self.vel_x += phy.gravity[0]
+        self.vel_y += phy.gravity[1]
+        
+        self.centerx += self.vel_x * self.dt
+        self.centery += self.vel_y * self.dt
         
     def update(self):
+        self.dt = phy.Dt
         self.check_collisions()
         self.move()
         self.update_rect()
@@ -165,6 +180,7 @@ class MovingSprite(Sprite, BasicMovingEntity):
         BasicMovingEntity.__init__(self, x_pos, y_pos, width, height, velocity)
 
     def update(self):
+        self.dt = phy.Dt
         self.check_collisions()
         self.move()
         self.update_rect()
