@@ -7,7 +7,7 @@ name = "pygess-py"
 version = "1.0.1"
 description = "Pygame Essentials"
 readme = "README.md"
-license = "The Unlicense"
+license = "MIT"
 requires-python = ">=3.10"
 authors = [
     { name = "Abhijay 'CraftyRyte' Bidari", email = "craftyryte2011@gmail.com" },
