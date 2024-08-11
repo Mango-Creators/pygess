@@ -13,7 +13,7 @@ class BasicEntity:
         self.height = height
 
         self.surface = pyg.display.get_surface()
-        self.rect = pyg.Rect(self.x, self.y, self.width, self.height)
+        self.rect = pyg.FRect(self.x, self.y, self.width, self.height)
         # self.prev_rect = pyg.Rect(self.x, self.y, self.width, self.height)
         
         self._colliding_objects = []
@@ -40,8 +40,8 @@ class BasicEntity:
     def update_rect(self):
         index = data.all_rects.index(self.rect)
         data.all_rects.remove(self.rect)
-        self.rect.x = round(self.x)
-        self.rect.y = round(self.y)
+        self.rect.x = self.x
+        self.rect.y = self.y
         self.rect.width = self.width
         self.rect.height = self.height
         data.all_rects.insert(index + 1, self.rect)
@@ -84,6 +84,9 @@ class BasicMovingEntity(BasicEntity):
         
         self.x += self.vel_x * self.dt
         self.y += self.vel_y * self.dt
+        
+    def jump(self, force):
+        self.vel_y = -force
 
     def update(self):
         self.dt = phy.Dt

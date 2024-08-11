@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-VERSION = '0.3.0'
+VERSION = '1.0.0'
 DESCRIPTION = 'Pygame Essentials'
 LONG_DESCRIPTION = "This is a library that makes developing in pygame simple for beginners. It has classes like BasicEntity, RectEntity, BasicMovingEntity etc. These 'templates' help beginners create their first games with ease. These templates are kept highly customizable and have a high scope for custom logic. This library currently (as of v0.3.0) contains Entity classes, master object list, gravity implementation along with built-in delta time."
 
@@ -17,7 +17,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['pygame'],
+    install_requires=['pygame-ce'],
     keywords=['python', 'pygame', "essentials"],
     classifiers=[
         "Development Status :: 3 - Alpha",
