@@ -2,7 +2,6 @@ from . import entity
 from . import data
 from . import colors
 from . import physics
-from pygame import *
 import time
 
 

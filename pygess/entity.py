@@ -163,16 +163,24 @@ class CircularMovingEntity(BasicCircularEntity, BasicMovingEntity):
 
 # Sprite Class
 class Sprite (RectEntity):
+    def __init__(self, x_pos, y_pos, width, height, sprite_path, scale_factor) -> None:
+        
+        RectEntity.__init__(self, x_pos, y_pos, width, height, None)
+        self._scale_factor = scale_factor
+        self.image = pyg.image.load(sprite_path).convert_alpha()
+        self.image = pyg.transform.scale(self.image, (self.rect.width*self._scale_factor, self.rect.height*self._scale_factor))
+    
     def __init__(self, x_pos, y_pos, width, height, sprite_path) -> None:
         
         RectEntity.__init__(self, x_pos, y_pos, width, height, None)
-        
+        self._scale_factor = 1
         self.image = pyg.image.load(sprite_path).convert_alpha()
-        self.image = pyg.transform.scale(self.image, (self.rect.width, self.rect.height))
+        self.image = pyg.transform.scale(self.image, (self.rect.width*self._scale_factor, self.rect.height*self._scale_factor))
+    
     
     def _draw(self):
         self.surface.blit(self.image, self.rect)
-        self.image = pyg.transform.scale(self.image, (self.rect.width, self.rect.height))
+        self.image = pyg.transform.scale(self.image, (self.rect.width*self._scale_factor, self.rect.height*self._scale_factor))
 
 
 # MovingSprite
