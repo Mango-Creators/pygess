@@ -25,7 +25,7 @@ On Mac/Linux
 **Remember to use `pygess.update()`  at the start of your gameloop. This makes sure that deltatime is updated.**
 ### Basic Entity
 
-    class BasicEntity:
+    `class BasicEntity:
         # Constructor
         def __init__(self, x_pos, y_pos, width, height) -> None:
             self.x = x_pos
@@ -70,7 +70,7 @@ On Mac/Linux
         # Update Function
         def update(self):
             self.update_rect()
-            self.check_collisions()
+            self.check_collisions()`
 
 **Parameters**: X position, Y position, Width, Height
 
