@@ -11,6 +11,8 @@ On Windows:
 On Mac/Linux
 `python3 -m pip3 install pygess-py`
 
+To use: ```import pygess```
+
 # Guide
 ## Entity Classes
 - Basic Entity
