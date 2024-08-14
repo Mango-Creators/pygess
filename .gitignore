@@ -5,3 +5,4 @@ dist
 *.png
 tests
 test_entity.py
+.vscode
