@@ -76,4 +76,12 @@ class Entity(pyg.sprite.DirtySprite):
             self.spr_group.update()
         
         self.spr_group.draw(pyg.display.get_surface())
-            
+
+class MovingEntity(Entity):
+    def __init__(self, position: tuple, dimensions: tuple, velocity: tuple, color=None, image_path=None) -> None:
+        Entity.__init__(self, position, dimensions, color, image_path)
+        self.velocity = pyg.math.Vector2(velocity[0], velocity[1])
+
+    def move(self):
+        self.pos += self.velocity * physics.Dt
+    
