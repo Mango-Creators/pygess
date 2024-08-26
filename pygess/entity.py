@@ -46,8 +46,14 @@ class Entity(pyg.sprite.DirtySprite):
     def update(self):
         self.update_rect()
         self.check_collisions()
+        
         if self in self.spr_group:
+            self.spr_group.remove(self)
             self.spr_group.update()
+            self.spr_group.add(self)
+        else:
+            self.spr_group.update()
+            
         self.spr_group.draw(pyg.display.get_surface())
 
 class MovingEntity(Entity):
