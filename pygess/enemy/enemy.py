@@ -8,7 +8,7 @@ class Enemy(MovingEntity):
         MovingEntity.__init__(self, position, dimensions, velocity, color, image_path)
         self.attack_range = attack_range
         self.player = None
-        self.attack_mode = None 
+        self.attack_mode = None  # defined by usr
 
     def set_player(self, player):
         self.player = player
