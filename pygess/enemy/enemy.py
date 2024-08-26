@@ -5,10 +5,10 @@ from .. import physics
 
 class Enemy(MovingEntity):
     def __init__(self, position: tuple, dimensions: tuple, velocity: tuple, color=None, image_path=None, attack_range: float = 50.0) -> None:
-        super().__init__(position, dimensions, velocity, color, image_path)
+        MovingEntity.__init__(self, position, dimensions, velocity, color, image_path)
         self.attack_range = attack_range
         self.player = None
-        self.attack_mode = None
+        self.attack_mode = None 
 
     def set_player(self, player):
         self.player = player
@@ -34,5 +34,3 @@ class Enemy(MovingEntity):
         if self in self.spr_group:
             self.spr_group.update()
         self.spr_group.draw(pyg.display.get_surface())
-
-# broken code, courtesy of @zeusssz
