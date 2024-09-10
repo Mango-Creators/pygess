@@ -1,13 +1,17 @@
 import pygame as pyg
 from . import data
 from . import physics
+from .physics import World
 
 class Entity(pyg.sprite.DirtySprite):
-    def __init__(self, position: tuple, dimensions: tuple, color=None, image_path=None) -> None:
+    def __init__(self, position: tuple, dimensions: tuple, world: tuple, color=None, image_path=None) -> None:
+    
         pyg.sprite.DirtySprite.__init__(self)
         self.pos = pyg.math.Vector2(position)
         self.dimensions = dimensions
         self.color = color
+
+        self.active_world = physics.get_active_world()
         
         if isinstance(image_path, str) and image_path:
             self.image = pyg.image.load(image_path).convert()
@@ -23,6 +27,10 @@ class Entity(pyg.sprite.DirtySprite):
 
         self._colliding_objects = []
         
+        for w in world:
+            if not isinstance(w, tuple):
+                w.add_gameobj((self,))
+            
         data.all_rects.append(self.rect)
     
     def update_rect(self):
@@ -44,6 +52,7 @@ class Entity(pyg.sprite.DirtySprite):
         return self._colliding_objects
 
     def update(self):
+
         self.update_rect()
         self.check_collisions()
         
@@ -55,11 +64,24 @@ class Entity(pyg.sprite.DirtySprite):
             self.spr_group.update()
             
         self.spr_group.draw(pyg.display.get_surface())
-
+    
+    
+        
 class MovingEntity(Entity):
-    def __init__(self, position: tuple, dimensions: tuple, velocity: tuple, color=None, image_path=None) -> None:
-        Entity.__init__(self, position, dimensions, color, image_path)
+    def __init__(self, position: tuple, dimensions: tuple, velocity: tuple, world: tuple, color:tuple=None, image_path=None) -> None:
+        super().__init__(position, dimensions, world, color=color, image_path=image_path)
         self.velocity = pyg.math.Vector2(velocity)
+        self.orignal_vel = pyg.math.Vector2(velocity)
+        self.is_affected_by_gravity = False
 
     def move(self):
-        self.pos += self.velocity * physics.Dt
+        self.pos += self.velocity * self.active_world.dt
+        
+        if not self.is_affected_by_gravity:
+            return
+        
+        self.velocity += self.current_world.gravity
+        
+    def set_gravitified(self, bool:bool):
+        self.is_affected_by_gravity = bool
+        
