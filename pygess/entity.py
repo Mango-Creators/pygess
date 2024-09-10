@@ -78,8 +78,6 @@ class Entity(pyg.sprite.DirtySprite):
         active_world = physics.get_active_world()
             
         if active_world in self.worlds_to_exist:
-            if active_world != self.current_world:
-                self.previous_world = self.current_world
             self.current_world = active_world
         else:
             self.current_world = None
@@ -107,11 +105,13 @@ class MovingEntity(Entity):
         
     def update_current_world(self):
         active_world = physics.get_active_world()
-            
+        print(f"Active world: {active_world}, Current world: {self.current_world}")
+
         if active_world in self.worlds_to_exist:
-            if active_world != self.current_world:
-                self.previous_world = self.current_world
-                self.velocity = self.orignal_vel
+            if self.current_world != None:
+                if active_world != self.current_world:
+                    print(f"World changed from {self.current_world} to {active_world}. Resetting velocity.")
+                    self.velocity = pyg.math.Vector2(0, 0)
             self.current_world = active_world
         else:
             self.current_world = None

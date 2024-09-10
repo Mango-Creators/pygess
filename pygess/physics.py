@@ -19,6 +19,9 @@ class World:
         if self.is_active: 
             self.dt = time.time() - self.prev_time
             self.prev_time = time.time()
+            return
+        self.dt = get_active_world().dt
+        self.dt = min(self.dt, 0.1)
 
 def get_active_world():
     for world in worlds:
