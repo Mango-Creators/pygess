@@ -1,8 +1,8 @@
 import math as mt
 import time
 
-gravity = (0, 9.8)
-Dt = 0
-prev_time = time.time()
-
-
+class World:
+    def __init__(self, grav: tuple) -> None:
+        self.gravity = grav
+        self.dt = 0
+        self.prev_time = time.time()
