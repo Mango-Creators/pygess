@@ -2,6 +2,7 @@ import math as mt
 import time
 import pygame as pyg
 import copy
+from . import data
 
 worlds = []
 
@@ -33,7 +34,6 @@ class World:
         
         self.__objects = GameObjects(game_objects)
         self.runtime_obj = copy.deepcopy(self.__objects)
-        self.__set_runtime()
         
         worlds.append(self)
         
@@ -65,6 +65,8 @@ class World:
     def __set_runtime(self):
         ent = []
         for e in self.__objects.entities:
+            if e.rect not in data.all_rects:
+                data.all_rects.append(e.rect)
             ent.append(copy.deepcopy(e))
         
         self.runtime_obj = GameObjects(ent)
