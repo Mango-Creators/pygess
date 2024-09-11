@@ -1,53 +1,73 @@
 import math as mt
 import time
 import pygame as pyg
+import copy
 
 worlds = []
 
 class GameObjects:
-    def __init__(self, entities:tuple) -> None:
+    def __init__(self, entities:list) -> None:
         self.entities = entities
         
     def update(self):
         from . import entity as ent
-        self.entities = tuple(set(self.entities))
+        self.entities = list(set(self.entities))
         for entity in self.entities:
             if isinstance(entity, (ent.Entity)):
                 entity.update()
             
-    def append(self, entity: tuple):
+    def append(self, *entity):
         for e in entity:
             if e != None:
-                a = list(self.entities)
-                a.append(e)
-                self.entities = tuple(a)
+                self.entities = list(self.entities)
+                self.entities.append(e)
 
 class World:
-    def __init__(self, grav: tuple, game_objects: tuple = ()) -> None:
+    def __init__(self, grav: tuple, *game_objects) -> None:
         self.gravity = pyg.math.Vector2(grav)
         self.dt = 0
         self.prev_time = time.time()
         self.is_active = False
         
-        self.objects = GameObjects(game_objects)
+        self.__counter = 0
+        
+        self.__objects = GameObjects(game_objects)
+        self.runtime_obj = copy.deepcopy(self.__objects)
+        self.__set_runtime()
         
         worlds.append(self)
         
     def update(self):
-        self.objects.update()
+        if not self.is_active:
+            self.__counter = 0
+        if self.__counter == 0:
+            self.__set_runtime()
+        self.runtime_obj.update()
+        self.__counter += 1
     
-    def add_gameobj(self, gameobj: tuple):
+    def add_gameobj(self, *gameobj):
         for obj in gameobj:
-            self.objects.append((obj,))
+            self.__objects.append(obj)
+    
+    def load_new_object(self, *gameobj):
+        for obj in gameobj:
+            self.runtime_obj.append(obj)
         
     def update_delta_time(self):
 
         if self.is_active: 
-            self.dt = time.time() - self.prev_time
+            self.dt = min(time.time() - self.prev_time, 0.1)
             self.prev_time = time.time()
             return
         self.dt = get_active_world().dt
         self.dt = min(self.dt, 0.1)
+    
+    def __set_runtime(self):
+        ent = []
+        for e in self.__objects.entities:
+            ent.append(copy.deepcopy(e))
+        
+        self.runtime_obj = GameObjects(ent)
 
 def get_active_world() -> World:
     for world in worlds:
@@ -71,3 +91,7 @@ def set_active_world(world:World):
 
 def get_all_worlds():
     return worlds
+
+def update_delta_time():
+    for w in get_all_worlds():
+        w.update_delta_time()
