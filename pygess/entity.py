@@ -1,7 +1,6 @@
 import pygame as pyg
 from . import data
 from . import physics
-from .physics import World
 
 class Entity(pyg.sprite.DirtySprite):
     def __init__(self, position: tuple, dimensions: tuple, color=None, image_path=None) -> None:
