@@ -1,6 +1,7 @@
 import pygame as pyg
 from . import data
 from . import physics
+import uuid
 
 class Entity(pyg.sprite.DirtySprite):
     def __init__(self, position: tuple, dimensions: tuple, color=None, image_path=None) -> None:
@@ -9,6 +10,9 @@ class Entity(pyg.sprite.DirtySprite):
         self.pos = pyg.math.Vector2(position)
         self.dimensions = dimensions
         self.color = color
+        
+        self.parent = None
+        self.id = uuid.uuid4()
 
         self.active_world = physics.get_active_world()
         
@@ -90,6 +94,7 @@ class MovingEntity(Entity):
         self.pos += self.velocity * self.active_world.dt
         
         if not self.is_affected_by_gravity:
+            self.velocity.y = 0
             return
         
         self.velocity += self.active_world.gravity

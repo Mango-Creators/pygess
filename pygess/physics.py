@@ -1,5 +1,6 @@
 import math as mt
 import time
+import uuid
 import pygame as pyg
 import copy
 from . import data
@@ -77,7 +78,10 @@ class World:
         for e in self.__objects.entities:
             if e.rect not in data.all_rects:
                 data.all_rects.append(e.rect)
-            ent.append(copy.deepcopy(e))
+            en = copy.deepcopy(e)
+            en.id = uuid.uuid4()
+            en.parent = e
+            ent.append(copy.deepcopy(en))
         
         self.runtime_obj = GameObjects(ent)
         self.__base_state = GameObjects(copy.deepcopy(ent))
@@ -125,3 +129,16 @@ def update_delta_time():
 def update_worlds():
     for w in get_all_worlds():
         w.update()
+
+def first_instance_of_prefab_in_world(world, prefab_entity) -> 'entity.Entity':
+    for e in world.runtime_obj.entities:
+        if e.parent.id == prefab_entity.id:
+            return e
+
+def all_instances_of_prefab_in_world(world, prefab_entity) -> list:
+    instances = []
+    for e in world.runtime_obj.entities:
+        if e.parent.id == prefab_entity.id:
+            instances.append(e)
+    
+    return instances
