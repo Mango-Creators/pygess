@@ -1,4 +1,8 @@
-The provided Python module files consist of several interconnected classes and functions, mainly focused on creating and managing game objects in a Pygame environment. Below is the detailed documentation and guide for each file, with explanations of all functions and classes. I have divided the guide by module to make it easier to understand each part of your PyGess library.
+## Installation
+### On Mac
+`python3 -m pip3 install pygess-py`
+### On Windows
+`python -m pip install pygess-py`
 
 ---
 
