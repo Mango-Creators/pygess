@@ -1,175 +1,161 @@
-# About
-This is a python library which aims at improving the use of the popular game development engine, pygame. Pygame is often confusing for beginners and a pain to type out all the boiler plate code. PyGess provides for multiple obvious, yet essential features that is frustrating to make always. This includes Entity classes like BasicEntity, RectEntity. Currently (as of v1.0.2) PyGess contains framerate independence, and gravity implementation. I am dedicated to this project and plan to add lots of more features and functionality.
-
-# Installation
-PyGess uses the default python package manager, pip to install. 
-
-On Windows:
-`python3 -m pip install pygess-py`
+The provided Python module files consist of several interconnected classes and functions, mainly focused on creating and managing game objects in a Pygame environment. Below is the detailed documentation and guide for each file, with explanations of all functions and classes. I have divided the guide by module to make it easier to understand each part of your PyGess library.
 
 ---
-On Mac/Linux
-`python3 -m pip3 install pygess-py`
 
-To use: ```import pygess```
+# PyGess (Pygame Essentials) Documentation
 
-# Guide
-## Entity Classes
-- Basic Entity
-- Rect Entity
-- Basic Moving Entity
-- Rect Moving Entity
-- Basic Circular Entity
-- Circular Moving Entity
-- Sprite
-- Moving Sprite
+## **Module 1: physics.py**
 
-**Remember to use `pygess.update()`  at the start of your gameloop. This makes sure that deltatime is updated.**
-### Basic Entity
+### Overview
+This module handles the physics of game objects and worlds. It defines classes for managing game entities, updating the state of worlds, and handling collision detection, gravity, and delta time updates.
 
-```python
-class BasicEntity:
-    # Constructor
-    def __init__(self, x_pos, y_pos, width, height) -> None:
-        self.x = x_pos
-        self.y = y_pos
-        self.width = width
-        self.height = height
+### **Classes**
 
-        self.surface = pyg.display.get_surface()
-        self.rect = pyg.FRect(self.x, self.y, self.width, self.height)
-        # self.prev_rect = pyg.Rect(self.x, self.y, self.width, self.height)
-        
-        self._colliding_objects = []
+#### `GameObjects`
+- **Purpose**: A container for managing and updating multiple game entities.
+  
+- **Constructor**: 
+  ```python
+  def __init__(self, entities: list) -> None:
+  ```
+  - **Parameters**: 
+    - `entities (list)`: List of game objects (entities).
+  - **Returns**: None.
+  
+- **Methods**:
+  - `update(self)`: Updates all entities in the list.
+  - `append(self, *entity)`: Adds new entities to the current list of game objects.
 
-        if self.rect not in data.all_rects:
-            data.all_rects.append(self.rect)
+#### `World`
+- **Purpose**: Represents a world with gravity, which can contain multiple game objects and handle updates, such as delta time and object states.
+  
+- **Constructor**:
+  ```python
+  def __init__(self, grav: tuple, *game_objects) -> None:
+  ```
+  - **Parameters**:
+    - `grav (tuple)`: The gravity vector for the world.
+    - `game_objects`: Game objects to initialize in the world.
+  
+- **Methods**:
+  - `update(self)`: Updates the world's state, including game objects and gravity.
+  - `add_gameobj(self, *gameobj)`: Adds new game objects to the world.
+  - `load_new_object(self, *gameobj)`: Loads new objects into the runtime state of the world.
+  - `update_delta_time(self)`: Updates the delta time for smoother animations and movements.
+  - `__reset(self)`: Resets the world to its initial state.
+  - `__set_runtime(self)`: Sets the runtime state.
+  - `set_world_active(self, active: bool)`: Sets the activity status of the world (start/stop).
+  
+#### `get_active_world()`
+- **Purpose**: Returns the currently active world.
 
-    # Checks what all objects are colliding with itself
-    def check_collisions(self):
-        for r in data.all_rects:
-            if r == self.rect:
-                continue
-            if self.rect.colliderect(r):
-                if r not in self._colliding_objects:
-                    self._colliding_objects.append(r)
-            else:
-                if r in self._colliding_objects:
-                    self._colliding_objects.remove(r)
+---
 
-    # Resturns the colliding objects list
-    def get_colliding_objects(self) -> list:
-        return self._colliding_objects
+## **Module 2: entity.py**
 
-    def update_rect(self):
-        index = data.all_rects.index(self.rect)
-        data.all_rects.remove(self.rect)
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self.rect.width = self.width
-        self.rect.height = self.height
-        data.all_rects.insert(index + 1, self.rect)
+### Overview
+This module defines various types of game entities, including their movement, collision detection, and interaction with the world.
 
-    # Update Function
-    def update(self):
-        self.update_rect()
-        self.check_collisions()
-```
+### **Classes**
 
-**Parameters**: X position, Y position, Width, Height
+#### `Entity`
+- **Purpose**: A base class representing a game entity.
+  
+- **Constructor**:
+  ```python
+  def __init__(self, position: tuple, dimensions: tuple, color: tuple = None, image_path: str = None) -> None:
+  ```
+  - **Parameters**:
+    - `position (tuple)`: Position of the entity.
+    - `dimensions (tuple)`: Size of the entity.
+    - `color (tuple, optional)`: Color of the entity.
+    - `image_path (str, optional)`: Path to the image file representing the entity.
+  
+- **Methods**:
+  - `update_rect(self)`: Updates the entity's position rectangle.
+  - `check_collisions(self)`: Checks for collisions with other entities.
+  - `is_colliding_with(self, rect)`: Returns whether the entity is colliding with a specific rectangle.
+  - `get_all_obj_colliding_with(self)`: Returns all objects the entity is colliding with.
+  - `update(self)`: Updates the entity's state in the world.
 
-This Entity is the superclass for all other types. It is invisible, but has a collider. The collider simply detects all the hitboxes of other entities that are in its hitbox. This data is stored in `self._colliding_objects` (List).
-```python
-    def update_rect(self):
-	index = data.all_rects.index(self.rect)
-        data.all_rects.remove(self.rect)
-        
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self.rect.width = self.width
-        self.rect.height = self.height
-        
-        data.all_rects.insert(index + 1, self.rect)
-```
-  This  Function is responsible for updating the Rect information of it in the master hitbox list, `all_rects` .  All rects keeps track of all rectangles (used as hitboxes) created using PyGess classes.
-### Rect Entity
-```python
-    class RectEntity(BasicEntity):
-        # Super constructor
-        def __init__(self, x_pos, y_pos, width, height, color) -> None:
-            BasicEntity.__init__(self, x_pos, y_pos, width, height)
-            self.color = color
-    
-        # New Draw function added
-        def _draw(self):
-            pyg.draw.rect(self.surface, self.color, self.rect)
-    
-        def update(self):
-            self.update_rect()
-            self.check_collisions()
-            self._draw()
-```
-This is subclass of basic Entity. This makes the Entity visible in the form of a colored rectangle. It has the same functionality as BasicEntity with a draw function added. It also takes `color` as a parameter.
-### Basic Moving Entity
-(to be added)
+#### `MovingEntity(Entity)`
+- **Purpose**: Inherits from `Entity`, with additional movement and velocity properties.
+  
+- **Constructor**:
+  ```python
+  def __init__(self, position: tuple, dimensions: tuple, velocity: tuple, color: tuple = None, image_path: str = None) -> None:
+  ```
+  - **Parameters**: Same as `Entity` with the addition of:
+    - `velocity (tuple)`: Initial velocity of the entity.
+  
+- **Methods**:
+  - `update(self)`: Updates the entity, including its movement.
+  - `move(self)`: Moves the entity based on its velocity and delta time.
+  - `set_gravitified(self, bool: bool)`: Sets whether the entity is affected by gravity.
+  - `set_velocity(self, velocity)`: Sets the entity's velocity.
 
-## Guide Script
-```python
-    import pygame as pyg
-    import pygess as gess
-    import time
-    
-    
-    if __name__ == "__main__":
-        pyg.init()
-        gess.physics.gravity = (0, 0)
-        screen = pyg.display.set_mode((800, 900))
-        
-        # Entities
-        ent1 = gess.entity.RectEntity(700, 600, 40, 40, gess.colors.GREEN)
-        ent2 = gess.entity.BasicCircularEntity(300, 400, 20, gess.colors.RED)
-        ent3 = gess.entity.MovingSprite(200, 300, 50, 50, "spri.png", (100, 0))
-        ent4 = gess.entity.RectMovingEntity(200, 0, 20, 20, (20, 0), gess.colors.BLACK)
-        
-        # ent4 = gess.entity.Sprite(450, 550, 30, 30, "spri.png")
-        
-        font = pyg.font.SysFont(None, 30)
-        
-        # Loop
-        is_running = True
-        clock = pyg.time.Clock()
-        
-        gess.physics.prev_time = time.time()
-        
-        while is_running:
-            gess.update()
-            # gess.update()
-            for event in pyg.event.get():
-                if event.type == pyg.QUIT:
-                    is_running = False
-                if event.type == pyg.KEYDOWN:
-                    if event.key == pyg.K_SPACE:
-                        ent4.vel_y = -500
-            
-            
-            # Drawing
-            screen.fill(gess.colors.WHITE)
-            
-            screen.blit(font.render(f"{gess.data.all_rects}", False, gess.colors.BLACK), (20, 20))
-            screen.blit(font.render(f"{gess.physics.Dt}", False, gess.colors.BLACK), (20, 40))
-            screen.blit(font.render(f"{clock.get_fps()}", False, gess.colors.BLACK), (20, 60))
-            
-            ent1.update()
-            pyg.draw.rect(screen, gess.colors.BLUE, ent2.rect)
-            ent2.update()
-            pyg.draw.rect(screen, gess.colors.BLACK, ent3.rect)2
-            ent3.update()
-            ent4.update()
-            
-            # Update
-            pyg.display.update()
-            pyg.display.flip()
-            
-            # clock.tick(120);
-```
+---
 
+## **Module 3: data.py**
+
+### Overview
+This module handles storing data related to game objects, such as position and collision data.
+
+### **Variables**
+- `all_rects`: A list that stores all the rectangles in the game world for collision detection.
+
+---
+
+## **Module 4: colors.py**
+
+### Overview
+This module contains predefined color values in RGB format for ease of use in the game development process.
+
+### **Color Variables**
+- `BLACK`: `(0, 0, 0)`
+- `WHITE`: `(255, 255, 255)`
+- `RED`: `(255, 0, 0)`
+- `GREEN`: `(0, 255, 0)`
+- `BLUE`: `(0, 0, 255)`
+- `YELLOW`: `(255, 255, 0)`
+- `CYAN`: `(0, 255, 255)`
+- `MAGENTA`: `(255, 0, 255)`
+
+---
+
+## **Usage Guide**
+
+### Setting Up a World
+1. Create a world with gravity:
+   ```python
+   world = World((0, 9.81))
+   ```
+
+2. Add game objects to the world:
+   ```python
+   player = MovingEntity((100, 100), (50, 50), (0, 0), color=colors.RED)
+   world.add_gameobj(player)
+   ```
+
+3. Activate and update the world:
+   ```python
+   world.set_world_active(True)
+   while True:
+       world.update()
+   ```
+
+### Creating a New Game Object
+1. Create a static entity:
+   ```python
+   box = Entity((200, 300), (100, 100), color=colors.BLUE)
+   ```
+
+2. Create a moving entity affected by gravity:
+   ```python
+   ball = MovingEntity((150, 200), (50, 50), (0, 10), color=colors.GREEN)
+   ball.set_gravitified(True)
+   ```
+
+---
+
+This documentation provides an overview of each class and method in your PyGess library, allowing users to quickly understand how to integrate and work with the code.
