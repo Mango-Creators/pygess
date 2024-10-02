@@ -8,6 +8,31 @@ from . import data
 worlds = []
 
 class GameObjects:
+    '''
+    # Description
+    A class which stores list of Entities. Also updates them.
+    Basically a sprite group for entities instead.
+    
+    # Functions
+    ## Init
+    ```
+    def __init__(self, entities:list) -> None:
+        self.entities = entities
+    ```
+    Initializes entity list.
+
+    ## update
+    ```
+    def update(self):
+        from . import entity as ent
+        self.entities = list(set(self.entities))
+        for entity in self.entities:
+            if isinstance(entity, (ent.Entity)):
+                entity.update()
+    ```
+    Updates all entities in list.
+    
+    '''
     def __init__(self, entities:list) -> None:
         self.entities = entities
         
