@@ -91,7 +91,7 @@ class MovingEntity(Entity):
         self.spr_group.draw(pyg.display.get_surface())
         
     def move(self):
-        self.pos += self.velocity * self.active_world.dt
+        self.pos += self.velocity * physics.delta_time;
         
         if not self.is_affected_by_gravity:
             self.velocity.y = 0
