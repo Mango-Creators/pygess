@@ -1,8 +1,4 @@
-from . import entity
-from . import data
-from . import colors
-from . import physics
-from . import utilities
+from pygess import *
 import time
 
 

@@ -5,7 +5,7 @@ import pygame as pyg
 import copy
 
 from pygame.sprite import Sprite
-from . import data
+from pygess import data
 
 worlds = []
 
