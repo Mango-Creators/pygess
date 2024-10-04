@@ -1,6 +1,6 @@
 import pygame as pyg
-from . import data
-from . import physics
+from pygess import data
+from pygess import physics
 import uuid
 
 class Entity(pyg.sprite.DirtySprite):

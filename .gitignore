@@ -8,3 +8,5 @@ test_entity.py
 .vscode
 main.py
 tempCodeRunnerFile.py
+test_script
+poetry.lock
