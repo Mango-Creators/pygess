@@ -13,6 +13,7 @@ class Entity(pyg.sprite.DirtySprite):
         
         self.parent = None
         self.id = uuid.uuid4()
+        self.__is_instance = False
 
         self.active_world = physics.get_active_world()
         
