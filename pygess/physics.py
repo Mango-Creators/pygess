@@ -74,6 +74,8 @@ class World:
     def update(self):
         if self.__init_runtime_counter == 0:
             self.runtime_objs = copy.deepcopy(self.__objects)
+            for x in self.runtime_objs.entities:
+                x.__is_instance = True
 
         self.runtime_objs.update()
 
