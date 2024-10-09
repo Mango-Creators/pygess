@@ -27,6 +27,12 @@ jobs:
     - name: Blah
       run: |
         poetry config pypi-token.pypi ${{ secrets.PYPI_API_TOKEN }}
+    - name: Install Commitizen
+      run: |
+        poetry add commitizen --group dev
+    - name: Bump Version
+      run: |
+        cz bump
     - name: Build package
       run: |
         poetry build
