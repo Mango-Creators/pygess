@@ -32,7 +32,7 @@ jobs:
         poetry add commitizen --group dev
     - name: Bump Version
       run: |
-        cz bump
+        commitizen bump
     - name: Build package
       run: |
         poetry build
