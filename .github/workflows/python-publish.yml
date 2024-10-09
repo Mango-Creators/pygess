@@ -24,9 +24,12 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install --no-root
+    - name: Blah
+      run: |
+        poetry config pypi-token.pypi ${{ secrets.PYPI_API_TOKEN }}
     - name: Build package
       run: |
         poetry build
     - name: Publish package
       run: |
-        poetry publish --username __TOKEN__ --password ${{ secrets.PYPI_API_TOKEN }}
+        poetry publish
