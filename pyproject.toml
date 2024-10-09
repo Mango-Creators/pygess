@@ -7,7 +7,7 @@ authors = ["Abhijay 'CraftyRyte' Bidari <craftyryte2011@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [
-    { include = "pygess-py" }
+    { include = "pygess" }
 ]
 
 [tool.poetry.dependencies]
