@@ -8,8 +8,3 @@ def instantiate(entity: entity.Entity, world: physics.World, pos:pyg.Vector2=Non
     entity_instance.pos = pos if pos else entity_instance.pos
     world.load_new_object(entity_instance)
 
-def get_key_pressed(key):
-    keys = pyg.key.get_pressed()
-    if key in keys:
-        return True
-    return False
