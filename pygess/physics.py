@@ -2,7 +2,7 @@ import math as mt
 import time
 import uuid
 import pygame as pyg
-import copy
+import copy as copy
 
 from pygess import data
 
