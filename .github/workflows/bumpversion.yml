@@ -9,14 +9,14 @@ jobs:
   bump-version:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
     runs-on: ubuntu-latest
-    name: "Bump version and create changelog with commitizen"
+    name: "Bump version with commitizen"
     steps:
       - name: Check out
         uses: actions/checkout@v3
         with:
           token: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
           fetch-depth: 0
-      - name: Create bump and changelog
+      - name: Create bump
         uses: commitizen-tools/commitizen-action@master
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
