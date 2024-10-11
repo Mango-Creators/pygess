@@ -21,11 +21,11 @@ jobs:
         with:
             github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
             changelog_increment_filename: body.md
-      - name: Create Release Notes
-        id: create_release_notes
+      - name: Append to body file
         run: |
-          echo "## Install the library!\nPyPi page: https://pypi.org/project/pygess-py/\nInstall using: `pip install pygess-py` (on Windows) `pip3 install pygess-py` (on Mac)" >> body.md.md
-          cat body.md
+          echo "## Install the library!" >> body.md
+          echo "PyPi page: https://pypi.org/project/pygess-py/" >> body.md
+          echo "Install using: \`pip install pygess-py\` (on Windows) \`pip3 install pygess-py\` (on Mac)" >> body.md
       - name: Release
         uses: softprops/action-gh-release@master
         with:
