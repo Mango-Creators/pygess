@@ -23,9 +23,10 @@ jobs:
             changelog_increment_filename: body.md
       - name: Append to body file
         run: |
-          echo "## Install the library!" >> body.md
-          echo "PyPi page: https://pypi.org/project/pygess-py/" >> body.md
-          echo "Install using: \`pip install pygess-py\` (on Windows) \`pip3 install pygess-py\` (on Mac)" >> body.md
+          BODY_FILE="./body.md"
+          echo "## Install the library!" >> $BODY_FILE
+          echo "PyPi page: https://pypi.org/project/pygess-py/" >> $BODY_FILE
+          echo "Install using: \`pip install pygess-py\` (on Windows) \`pip3 install pygess-py\` (on Mac)" >> $BODY_FILE
       - name: Release
         uses: softprops/action-gh-release@master
         with:
