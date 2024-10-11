@@ -1,4 +1,10 @@
 
+## 3.0.3 (2024-10-11)
+
+### Fix
+
+- **bumpversion.yml**: added gen release notes
+
 ## 3.0.2 (2024-10-11)
 
 ### Perf
