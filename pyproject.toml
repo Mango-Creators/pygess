@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pygess-py"
-version = "3.0.13"
+version = "3.0.14"
 description = "Pygame Essentials"
 authors = ["Abhijay Bidari <craftyryte2011@gmail.com>"]
 license = "MIT"
