@@ -31,8 +31,12 @@ jobs:
           echo "## Install the library!" >> $TEMP_BODY_FILE
           echo "PyPi page: https://pypi.org/project/pygess-py/" >> $TEMP_BODY_FILE
           echo "Install using: \`pip install pygess-py\` (on Windows) \`pip3 install pygess-py\` (on Mac)" >> $TEMP_BODY_FILE
-          # Move the temporary file to the final location
-          mv $TEMP_BODY_FILE $FINAL_BODY_FILE
+          
+          # Append contents of the temporary file to the final body file
+          cat $TEMP_BODY_FILE >> $FINAL_BODY_FILE
+          
+          # Remove the temporary file
+          rm $TEMP_BODY_FILE
 
       - name: Release
         uses: softprops/action-gh-release@master
@@ -44,3 +48,4 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
