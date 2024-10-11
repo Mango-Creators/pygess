@@ -1,4 +1,10 @@
 
+## 3.0.15 (2024-10-11)
+
+### Fix
+
+- **bumpversion.yml**: fixed append body 4
+
 ## 3.0.14 (2024-10-11)
 
 ### Fix
