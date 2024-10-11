@@ -29,8 +29,8 @@ jobs:
         with:
           append_body: true
           body_path: |
-            body.md
-            add_body.md
+            "body.md
+             add_body.md"
           tag_name: ${{ env.REVISION }}
           name: "Release ${{ env.REVISION }}"
           generate_release_notes: true
