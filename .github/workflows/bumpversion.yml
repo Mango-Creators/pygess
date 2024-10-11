@@ -24,6 +24,7 @@ jobs:
       - name: Append to body file
         run: |
           BODY_FILE="./body.md"
+          chmod 666 $BODY_FILE
           echo "## Install the library!" >> $BODY_FILE
           echo "PyPi page: https://pypi.org/project/pygess-py/" >> $BODY_FILE
           echo "Install using: \`pip install pygess-py\` (on Windows) \`pip3 install pygess-py\` (on Mac)" >> $BODY_FILE
