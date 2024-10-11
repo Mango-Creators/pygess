@@ -1,4 +1,10 @@
 
+## 3.0.4 (2024-10-11)
+
+### Fix
+
+- **bumpversion.yml**: added custom release name
+
 ## 3.0.3 (2024-10-11)
 
 ### Fix
