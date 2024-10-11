@@ -1,4 +1,10 @@
 
+## 3.0.11 (2024-10-11)
+
+### Fix
+
+- **bumpversion.yml**: Repositioning statements and morrree
+
 ## 3.0.10 (2024-10-11)
 
 ### Fix
