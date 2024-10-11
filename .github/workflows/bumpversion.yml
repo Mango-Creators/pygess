@@ -24,13 +24,16 @@ jobs:
       - name: Create Additional Body
         run: |
           echo "## Install the library!\nPyPi page: https://pypi.org/project/pygess-py/\nInstall using: `pip install pygess-py` (on Windows) `pip3 install pygess-py` (on Mac)" > add_body.md
+      - name: Create Release Notes
+        id: create_release_notes
+        run: |
+          cat add_body.md >> body.md.md
+          echo "::set-output name=body::$(cat body.md)"
       - name: Release
         uses: softprops/action-gh-release@master
         with:
           append_body: true
-          body_path: |
-            "body.md
-             add_body.md"
+          body_path: "body.md"
           tag_name: ${{ env.REVISION }}
           name: "Release ${{ env.REVISION }}"
           generate_release_notes: true
