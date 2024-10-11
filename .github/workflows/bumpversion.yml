@@ -28,7 +28,7 @@ jobs:
         id: create_release_notes
         run: |
           echo "## Install the library!\nPyPi page: https://pypi.org/project/pygess-py/\nInstall using: `pip install pygess-py` (on Windows) `pip3 install pygess-py` (on Mac)" >> body.md.md
-          echo "::set-output name=body::$(cat body.md)"
+          cat body.md
       - name: Release
         uses: softprops/action-gh-release@master
         with:
