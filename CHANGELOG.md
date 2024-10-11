@@ -1,4 +1,10 @@
 
+## 3.0.9 (2024-10-11)
+
+### Fix
+
+- **bumpversion.yml**: Repositioning statements and more fizing
+
 ## 3.0.8 (2024-10-11)
 
 ### Fix
