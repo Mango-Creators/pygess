@@ -27,7 +27,7 @@ jobs:
       - name: Create Release Notes
         id: create_release_notes
         run: |
-          cat add_body.md >> body.md.md
+          echo add_body.md >> body.md.md
           echo "::set-output name=body::$(cat body.md)"
       - name: Release
         uses: softprops/action-gh-release@master
