@@ -24,9 +24,9 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2.0.8
         with:
+          append_body: true
           body: "## Install the library!\n PyPi page: https://pypi.org/project/pygess-py/ \n Install using: `pip install pygess-py` (on Windows) `pip3 install pygess-py` (on Mac)"
           body_path: "body.md"
-          append_body: true
           tag_name: ${{ env.REVISION }}
           name: "Release ${{ env.REVISION }}"
           generate_release_notes: true
