@@ -1,8 +1,8 @@
 import math as mt
 import time
-import uuid as uuid
+import uuid
 import pygame as pyg
-import copy as copy
+import copy
 
 from pygess import data
 
